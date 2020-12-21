@@ -1,0 +1,101 @@
+{
+	"info": {
+		"_postman_id": "965c1e1c-f44c-42f1-801f-5ef4e7009a95",
+		"name": "影视API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "支持的城市列表",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var aaa = pm.response.json();\r",
+							"\r",
+							"//设置全局便变量\r",
+							"pm.globals.set(\"city_1\", aaa[\"result\"][1][\"id\"]);\r",
+							"\r",
+							"pm.test(\"Your test name\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[\"result\"][128][\"city_name\"]).to.eql(\"开封\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_1}}movie/citys?key={{key_1}}",
+					"host": [
+						"{{url_1}}movie"
+					],
+					"path": [
+						"citys"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key_1}}"
+						}
+					]
+				},
+				"description": "查询城市的id"
+			},
+			"response": []
+		},
+		{
+			"name": "城市上映的影片",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Your test name\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[\"reason\"]).to.eql(\"success\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_1}}/movie/movies.today?key={{key_1}}&cityid={{city_1}}",
+					"host": [
+						"{{url_1}}"
+					],
+					"path": [
+						"movie",
+						"movies.today"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key_1}}"
+						},
+						{
+							"key": "cityid",
+							"value": "{{city_1}}"
+						}
+					]
+				},
+				"description": "通过城市id查询城市上映的影片"
+			},
+			"response": []
+		}
+	]
+}
